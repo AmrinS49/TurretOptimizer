@@ -51,7 +51,7 @@ public class Turret {
         if(turretDirection == TurretDirection.CLOCKWISE){
             targetPosition += MAX_SEEK_THETA;
         }
-        else if(turretDirection == TurretDirection.COUNTERCLOCKWISE){
+        else {
             targetPosition -= MAX_SEEK_THETA;
         }
     }
@@ -62,6 +62,29 @@ public class Turret {
 
     private void lock(double absoluteAngleToTarget){
         //verify lock
+    }
+
+    private void incrementTargetPosition(double increment){
+        if(turretDirection == TurretDirection.CLOCKWISE){
+            if(currentPosition + increment > MAX_POSITION) {            //Attempt to move past max
+                targetPosition = MAX_POSITION;                          //Set target position to max
+                turretDirection = TurretDirection.COUNTERCLOCKWISE;     //Reverse movement direction for next move
+            }
+            else
+                targetPosition += increment;                            //Increment normally
+        }
+        else{
+            if(currentPosition - increment < MIN_POSITION){             //Attempt to move past min
+                targetPosition = MIN_POSITION;                          //Set target position to min
+                turretDirection = TurretDirection.CLOCKWISE;            //Reverse movement direction for next move
+            }
+            else
+                targetPosition -= increment;                            //Decrement Normally
+        }
+    }
+
+    private void setTargetPosition(){
+
     }
 
     public enum TurretState {
