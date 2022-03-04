@@ -1,8 +1,8 @@
 public class Turret {
 
     //Limitations
-    private static final double FIELD_OF_VIEW = 60;
-    private static final double VISIBILITY_THRESHOLD = FIELD_OF_VIEW / 2;
+    private static final double FIELD_OF_VIEW = 60.0;
+    private static final double VISIBILITY_THRESHOLD = FIELD_OF_VIEW / 2.0;
     public static final double MIN_POSITION = 21.754;
     public static final double MAX_POSITION = 283.467;
 
@@ -12,16 +12,13 @@ public class Turret {
 
     //Status
     private double currentPosition = 0;                                 //current angle of turret
-    private double currentSpeed = 0;                                    //current motor speed
-    private double currentSampleRate = 0;                               //current frame sample rate
+    private double currentSpeed = 0;                                    //curent speed of turret motor
 
     private TurretState turretState;                                    // * seeking, locking, locked
     private TurretDirection turretDirection;                            // * clockwise, counterclockwise
 
     //Target
     private double targetPosition = 0;                                  //the angle we want to move to the next tick
-    private double targetSpeed = 0;                                     //the speed of the motor during next movement
-    private double targetSampleRate = 0;                                //the sample rate to use next movement
     private boolean targetIsVisible =  false;
 
     //Simulation
@@ -122,13 +119,14 @@ public class Turret {
         updateTargetVisible(delta);
         updateTurretDirection(delta);
         updateTurretState(delta);
+        updateSpeed(delta);
 
         return Math.abs(delta);
     }
 
-    // ********************* //
-    // *** UPDATE STATES *** //
-    // ********************* //
+    // ******************************* //
+    // *** UPDATE STATES AND SPEED *** //
+    // ******************************* //
 
     private void updateTargetVisible(double delta){
         targetIsVisible = Math.abs(delta) < VISIBILITY_THRESHOLD;
@@ -154,6 +152,13 @@ public class Turret {
             turretState = TurretState.LOCKING;
         else
             turretState = TurretState.LOCKED;
+    }
+
+    private void updateSpeed(double delta){
+        if(turretState == TurretState.SEEKING)
+            currentSpeed = 1.0;
+        else
+            currentSpeed = Math.pow(Math.min(((Math.abs(delta) / VISIBILITY_THRESHOLD) + .4), 1.0), 3) / Math.pow(1, 3);
     }
 
     // ************************* //
@@ -209,6 +214,7 @@ public class Turret {
         out += "Goal:\t\t" + goalPosition + "\n";
         out += "Target:\t\t" + targetPosition + "\n";
         out += "Delta:\t\t" + roundToThreeDecimals(Math.abs(goalPosition - currentPosition)) + "\n";
+        out += "Speed:\t\t" + currentSpeed + "\n";
 
         return out;
     }

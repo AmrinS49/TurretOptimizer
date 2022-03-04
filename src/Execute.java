@@ -14,10 +14,14 @@ public class Execute {
         System.out.println("Generated turret angle : " + turretAngle);
         System.out.println();
 
-        //Turret t = new Turret(goalAngle, turretAngle);
+        Turret t = new Turret(goalAngle, turretAngle);
+        PrimitiveTurret p = new PrimitiveTurret(goalAngle, turretAngle);
+
         //Turret t = new Turret(Turret.MIN_POSITION, Turret.MAX_POSITION);
-        Turret t = new Turret(30.0, 200.0);
-        PrimitiveTurret p = new PrimitiveTurret(30.0, 200.0);
+        //wPrimitiveTurret p = new PrimitiveTurret(Turret.MIN_POSITION, Turret.MAX_POSITION);
+
+        //Turret t = new Turret(30.0, 200.0);
+        //PrimitiveTurret p = new PrimitiveTurret(30.0, 200.0);
 
         while(!t.locked){
             t.operate();
@@ -25,6 +29,6 @@ public class Execute {
         }
 
         System.out.println("Target locked in [" + t.moves + "] moves.");
-        System.out.println("Primitive locked in [" + p.getMovesToLock() + "] moves.");
+        //System.out.println("Primitive locked in [" + p.getMovesToLock() + "] moves.");
     }
 }
