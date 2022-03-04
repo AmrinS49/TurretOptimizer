@@ -12,7 +12,7 @@ public class Turret {
 
     //Status
     private double currentPosition = 0;                                 //current angle of turret
-    private double currentSpeed = 0;                                    //curent speed of turret motor
+    private double currentSpeed = 0;                                    //current speed of turret motor
 
     private TurretState turretState;                                    // * seeking, locking, locked
     private TurretDirection turretDirection;                            // * clockwise, counterclockwise
@@ -167,9 +167,9 @@ public class Turret {
 
     //Returns an angle that adheres to MIN_POSITION and MAX_POSITION
     private double getBoundedAngle(double angle){
-        if(angle <= MIN_POSITION)
+        if(angle < MIN_POSITION)
             return MIN_POSITION;
-        else if(angle >= MAX_POSITION)
+        else if(angle > MAX_POSITION)
             return MAX_POSITION;
         else
             return angle;
@@ -190,12 +190,12 @@ public class Turret {
     public enum TurretState {
         SEEKING,
         LOCKING,
-        LOCKED;
+        LOCKED
     }
 
     public enum TurretDirection {
         CLOCKWISE,
-        COUNTERCLOCKWISE;
+        COUNTERCLOCKWISE
     }
 
     // ********************* //
